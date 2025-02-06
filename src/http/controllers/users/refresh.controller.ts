@@ -8,24 +8,28 @@ export async function refresh(
 
   await request.jwtVerify({ onlyCookie: true })
 
-  const user = request.user
+  const { role, sub } = request.user
 
   debugger
 
   const token = await reply.jwtSign(
-      {},
+      {
+        role,
+      },
       {
         sign: {
-          sub: user.sub,
+          sub,
         },
       },
     )
 
   const refreshToken = await reply.jwtSign(
-      {},
+      {
+        role,
+      },
       {
         sign: {
-          sub: user.sub,
+          sub,
           expiresIn: "7d",
         },
       },
